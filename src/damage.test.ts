@@ -43,10 +43,7 @@ describe('Damage Class', () => {
 	});
 
 	test('Apply Damage calculates total correctly', () => {
-		// Mock target for the test
 		damageInstance.target = mockTarget;
-
-		// Mock applyDamage method to return a specific result
 		damageInstance.applyDamage = jest.fn().mockReturnValue({ total: 42 } as DamageResult);
 
 		const result = damageInstance.applyDamage();
@@ -54,6 +51,36 @@ describe('Damage Class', () => {
 		// Assertions
 		expect(damageInstance.applyDamage).toHaveBeenCalled();
 		expect(result.total).toBe(42);
+		// Add more assertions based on your specific use case
+	});
+
+	test('Apply Damage handles pure damage correctly', () => {
+		// Mock target for the test
+		damageInstance.target = mockTarget;
+
+		// Set up mock data for pure damage
+		const mockPureDamageStats: DamageStats = { pure: 10 };
+		damageInstance.damages = mockPureDamageStats;
+
+		const result = damageInstance.applyDamage();
+
+		// Assertions
+		expect(result.total).toBe(10);
+		// Add more assertions based on your specific use case
+	});
+
+	test('Apply Damage ensures a minimum of 1 total damage', () => {
+		// Mock target for the test
+		damageInstance.target = mockTarget;
+
+		// Set up mock data for zero damage
+		const mockZeroDamageStats: DamageStats = { slash: 0, burn: 0, pure: 0 };
+		damageInstance.damages = mockZeroDamageStats;
+
+		const result = damageInstance.applyDamage();
+
+		// Assertions
+		expect(result.total).toBe(1); // Total damage should be at least 1
 		// Add more assertions based on your specific use case
 	});
 
