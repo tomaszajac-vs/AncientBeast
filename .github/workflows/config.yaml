@@ -74,4 +74,8 @@ jobs:
     needs: test
     steps:
     - name: Deploy completed
-      run: echo "Deploy completed"
+      uses: rtCamp/action-slack-notify@v2
+      with:
+        slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+        slack_channel: '#general'
+        slack_message: '🚀 Browser game successfully deployed!'
